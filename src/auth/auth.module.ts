@@ -14,6 +14,6 @@ import { isAdmin } from '../middleware/isAdmin.middleware';
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(isAdmin).forRoutes('*'); // Apply middleware to all routes in this module
+    consumer.apply(isAdmin).forRoutes('/login'); // Apply middleware to all routes in this module
   }
 }
