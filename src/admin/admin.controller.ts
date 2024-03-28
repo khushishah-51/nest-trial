@@ -1,5 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AdminService } from './admin.service';
+import { CreateProductDto } from './dto/create-product.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -12,12 +13,9 @@ export class AdminController {
   }
 
   @Post('product')
-  async createProduct(
-    @Body('title') title: string,
-    @Body('categoryName') categoryName: string,
-  ) {
-    const createdProduct = await this.adminService.createProduct(title, categoryName);
+  async createProduct(@Body() createProductDto: CreateProductDto) { // Updated: Use DTO
+    const createdProduct = await this.adminService.createProduct(createProductDto);
     return { product: createdProduct };
-  }
+  }  
 }
 

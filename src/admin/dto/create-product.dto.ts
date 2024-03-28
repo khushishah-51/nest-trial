@@ -1,4 +1,12 @@
+import { IsString, IsUrl } from 'class-validator';
+
 export class CreateProductDto {
-    readonly title: string;
-    readonly categoryName: string;
-  }
+  @IsString()
+  title: string;
+
+  @IsUrl() // Updated: Validate image URL
+  image: string;
+
+  @IsString()
+  categoryName: string;
+}
