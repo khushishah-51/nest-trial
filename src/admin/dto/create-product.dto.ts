@@ -4,7 +4,7 @@ export class CreateProductDto {
   @IsString()
   title: string;
 
-  @IsUrl() // Updated: Validate image URL
+  @IsUrl() 
   image: string;
 
   @IsString()
