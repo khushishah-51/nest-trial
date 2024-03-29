@@ -18,15 +18,14 @@ import { isAdmin } from './middleware/isAdmin.middleware';
 export class AppModule implements NestModule {
   configureSession(consumer: MiddlewareConsumer) {
     consumer
-      //.apply(session({isAdmin}))
       .apply(isAdmin)
-      .forRoutes('/admin/*'); // Apply session middleware to routes starting with /auth/
+      .forRoutes('/admin/*'); // Apply session middleware to routes starting with /admin/
   }
 
   configureCookieParser(consumer: MiddlewareConsumer) {
     consumer
       .apply(CookieParserMiddleware)
-      .forRoutes('/products/*'); // Apply cookie-parser middleware to routes starting with /admin/
+      .forRoutes('/products/*'); // Apply cookie-parser middleware to routes starting with /products/
   }
 
   configure(consumer: MiddlewareConsumer) {

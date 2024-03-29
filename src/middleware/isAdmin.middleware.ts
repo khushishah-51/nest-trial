@@ -6,11 +6,9 @@ import { Request, Response, NextFunction } from 'express';
 export class isAdmin implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     if (req.session && req.session.isAdmin) {
-      console.log("hi")
       // If session has isAdmin set to true, proceed to next middleware/route handler
       next();
     } else {
-      console.log("hi")
       // If not authenticated, send an error response
        res.status(403).send('Unauthorized');
     }

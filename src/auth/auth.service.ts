@@ -51,7 +51,7 @@ export class AuthService {
       throw new Error('Wrong details. Check details!');
     } else {
       const isPasswordMatch = await bcrypt.compare(password, user.password);
-      if (isPasswordMatch) {
+      if (isPasswordMatch) {         
         return 'Successfully logged in as admin!';
       } else {
         throw new Error('Wrong details. Check details!');

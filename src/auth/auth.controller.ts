@@ -1,6 +1,6 @@
 // auth.controller.ts
 
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Session } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDTO, LoginDTO, AdminDTO } from './auth.dto';
 
@@ -19,8 +19,12 @@ export class AuthController {
   }
 
   @Post('admin')
-  async admin(@Body() adminDTO: AdminDTO) {
-    return await this.authService.admin(adminDTO);
+  async admin(@Body() adminDTO: AdminDTO, @Session() session: Record<string, any>) {
+    const result = await this.authService.admin(adminDTO);
+      // Set session variables upon successful login
+      session.username = adminDTO.name;
+      session.isAdmin = true;  
+    return result;
   }
 }
 
