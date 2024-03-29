@@ -13,7 +13,7 @@ export class AdminController {
   }
 
   @Post('product')
-  async createProduct(@Body() createProductDto: CreateProductDto) { // Updated: Use DTO
+  async createProduct(@Body() createProductDto: CreateProductDto) { 
     const createdProduct = await this.adminService.createProduct(createProductDto);
     return { product: createdProduct };
   }  
