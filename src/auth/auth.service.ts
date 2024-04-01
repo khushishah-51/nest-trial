@@ -2,7 +2,6 @@
 
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { User } from './interfaces/auth.interface';
 import { UserDTO, LoginDTO, AdminDTO } from './auth.dto';
@@ -10,8 +9,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService,
-    @InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async signup(userDTO: UserDTO): Promise<User> {
     const { name, password } = userDTO;
@@ -28,9 +26,8 @@ export class AuthService {
     return await newUser.save();
   }
 
-  async login(loginDTO: LoginDTO): Promise<string> {
+  async login(loginDTO: LoginDTO): Promise<User> {
     const { name, password } = loginDTO;
-    console.log('hey')
 
     const user = await this.userModel.findOne({ name });
     if (!user) {
@@ -39,8 +36,7 @@ export class AuthService {
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (isPasswordMatch) {
-      const payload = { name: user.name, sub: user._id }; // Adjust as per your user model
-      return this.jwtService.sign(payload); // Generate JWT token
+      return user;
     } else {
       throw new Error('Wrong password!');
     }

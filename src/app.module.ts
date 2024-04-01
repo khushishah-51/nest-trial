@@ -15,7 +15,7 @@ import { isAdmin } from './middleware/isAdmin.middleware';
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule, PassportModule.register({ defaultStrategy: 'jwt' }), 
   JwtModule.register({
-    secret: 'your-secret-key', 
+    secret: 'mysecret', 
     signOptions: { expiresIn: '1h' }, 
   }), ],
   controllers: [AppController],
