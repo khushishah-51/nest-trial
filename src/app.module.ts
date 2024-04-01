@@ -1,5 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { CookieParserMiddleware } from 'cookie-parser';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy'; 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,9 +13,13 @@ import { isAdmin } from './middleware/isAdmin.middleware';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule, ],
+  imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule, PassportModule.register({ defaultStrategy: 'jwt' }), 
+  JwtModule.register({
+    secret: 'your-secret-key', 
+    signOptions: { expiresIn: '1h' }, 
+  }), ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule implements NestModule {
   configureSession(consumer: MiddlewareConsumer) {
@@ -22,14 +28,7 @@ export class AppModule implements NestModule {
       .forRoutes('/admin/*'); // Apply session middleware to routes starting with /admin/
   }
 
-  configureCookieParser(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CookieParserMiddleware)
-      .forRoutes('/products/*'); // Apply cookie-parser middleware to routes starting with /products/
-  }
-
   configure(consumer: MiddlewareConsumer) {
     this.configureSession(consumer);
-    this.configureCookieParser(consumer);
   }
 }
