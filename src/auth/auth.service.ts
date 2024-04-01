@@ -26,8 +26,9 @@ export class AuthService {
     return await newUser.save();
   }
 
-  async login(loginDTO: LoginDTO): Promise<User> {
+  async login(loginDTO: LoginDTO): Promise<string> {
     const { name, password } = loginDTO;
+    console.log('hey')
 
     const user = await this.userModel.findOne({ name });
     if (!user) {
@@ -36,7 +37,7 @@ export class AuthService {
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (isPasswordMatch) {
-      return user;
+      return 'SUCCESFULLY LOGGED IN';
     } else {
       throw new Error('Wrong password!');
     }

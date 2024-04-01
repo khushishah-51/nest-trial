@@ -21,6 +21,7 @@ import { isAdmin } from './middleware/isAdmin.middleware';
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
 })
+
 export class AppModule implements NestModule {
   configureSession(consumer: MiddlewareConsumer) {
     consumer

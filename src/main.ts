@@ -4,6 +4,7 @@ import * as session from 'express-session';
 
 
 async function bootstrap() {
+  console.log("hey1")
   const app = await NestFactory.create(AppModule);
 
   app.use(
