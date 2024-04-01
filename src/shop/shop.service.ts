@@ -25,7 +25,9 @@ export class ShopService {
 
   async likeProduct(productId: string, userId: string): Promise<void> {
     const existingLikedProduct = await this.likedProductModel.findOne({ productId, userId }).exec();
+    console.log('shopservice')
     if (!existingLikedProduct) {
+      console.log('shopservice')
       const likedProduct = new this.likedProductModel({ productId, userId });
       await likedProduct.save();
     }

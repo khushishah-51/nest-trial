@@ -1,12 +1,16 @@
 // auth.controller.ts
 
-import { Controller, Post, Body, Session } from '@nestjs/common';
+import { Controller, Post, Body, Session,  UseGuards, Req, Res, HttpStatus   } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDTO, LoginDTO, AdminDTO } from './auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller()
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService, 
+    private readonly jwtService: JwtService,
+    ) {}
 
   @Post('signup')
   async signup(@Body() userDTO: UserDTO) {
@@ -14,8 +18,12 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() loginDTO: LoginDTO) {
-    return await this.authService.login(loginDTO);
+  async login(@Body() loginDTO: LoginDTO, @Res() res: any) {
+    console.log("logincontroller")
+    const user = await this.authService.login(loginDTO);
+    const payload = { username: user.name, sub: user._id }; // Customize payload as needed
+    const token = this.jwtService.sign(payload); // Generate JWT token
+    res.status(HttpStatus.OK).json({ token: 'Bearer ' + token }); // Return token to the client};
   }
 
   @Post('admin')
