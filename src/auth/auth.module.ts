@@ -13,7 +13,8 @@ import { UserSchema } from './schemas/auth.schema';
   JwtModule.register({
     secret: 'mysecret', 
     signOptions: { expiresIn: '1h' },
-  }),],
+  }),
+],
   providers: [AuthService],
   controllers: [AuthController],
 })

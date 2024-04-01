@@ -1,6 +1,6 @@
 // auth.controller.ts
 
-import { Controller, Post, Body, Session,  UseGuards  } from '@nestjs/common';
+import { Controller, Post, Body, Session,  UseGuards, Req, Res, HttpStatus   } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDTO, LoginDTO, AdminDTO } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -18,12 +18,12 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() loginDTO: LoginDTO) {
+  async login(@Body() loginDTO: LoginDTO, @Res() res: any) {
     console.log("logincontroller")
     const user = await this.authService.login(loginDTO);
     const payload = { username: user.name, sub: user._id }; // Customize payload as needed
     const token = this.jwtService.sign(payload); // Generate JWT token
-    return { token }; // Return token to the client};
+    res.status(HttpStatus.OK).json({ token: 'Bearer ' + token }); // Return token to the client};
   }
 
   @Post('admin')

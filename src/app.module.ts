@@ -13,11 +13,13 @@ import { isAdmin } from './middleware/isAdmin.middleware';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule, PassportModule.register({ defaultStrategy: 'jwt' }), 
-  JwtModule.register({
-    secret: 'mysecret', 
-    signOptions: { expiresIn: '1h' }, 
-  }), ],
+  imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule,
+   PassportModule.register({ defaultStrategy: 'jwt' }), 
+  // JwtModule.register({
+  //   secret: 'mysecret', 
+  //   signOptions: { expiresIn: '1h' },
+  // }), 
+],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
 })
