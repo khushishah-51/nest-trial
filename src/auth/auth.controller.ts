@@ -19,6 +19,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDTO: LoginDTO) {
+    console.log("logincontroller")
     const user = await this.authService.login(loginDTO);
     const payload = { username: user.name, sub: user._id }; // Customize payload as needed
     const token = this.jwtService.sign(payload); // Generate JWT token

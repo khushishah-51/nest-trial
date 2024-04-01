@@ -28,7 +28,7 @@ export class AuthService {
 
   async login(loginDTO: LoginDTO): Promise<User> {
     const { name, password } = loginDTO;
-
+    console.log("loginservice")
     const user = await this.userModel.findOne({ name });
     if (!user) {
       throw new Error("Name doesn't exist. Check name or signup.");

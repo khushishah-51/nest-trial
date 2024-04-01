@@ -63,6 +63,7 @@ export class ShopController {
 @Post(':id/like')
 @UseGuards(JwtAuthGuard) // Use JWTAuthGuard
 async likeProduct(@Param('id') id: string, @Req() req): Promise<void> {
+  console.log('shopcontroller')
   const userId = req.user.userId; // Extract userId from request user
   return this.productService.likeProduct(id, userId);
 }
