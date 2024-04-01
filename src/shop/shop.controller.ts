@@ -59,17 +59,18 @@ export class ShopController {
 //   const userId = req.user.userId; // Extract userId from request user
 //   return this.productService.findLikedProducts(userId);
 // }
+
 @Post(':id/like')
-@UseGuards(JwtAuthGuard) // Protect this route with JWT authentication
+@UseGuards(JwtAuthGuard) // Use JWTAuthGuard
 async likeProduct(@Param('id') id: string, @Req() req): Promise<void> {
-  const userId = req.user.userId; // Extract userId from JWT payload
+  const userId = req.user.userId; // Extract userId from request user
   return this.productService.likeProduct(id, userId);
 }
 
 @Get('liked')
-@UseGuards(JwtAuthGuard) // Protect this route with JWT authentication
+@UseGuards(JwtAuthGuard) // Use JWTAuthGuard
 async findLikedProducts(@Req() req): Promise<ProductDTO[]> {
-  const userId = req.user.userId; // Extract userId from JWT payload
+  const userId = req.user.userId; // Extract userId from request user
   return this.productService.findLikedProducts(userId);
 }
 }

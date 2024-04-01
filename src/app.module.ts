@@ -2,7 +2,6 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
-import { JWTService } from './jwt.service'; 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -14,7 +13,7 @@ import { isAdmin } from './middleware/isAdmin.middleware';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule, PassportModule, 
+  imports: [MongooseModule.forRoot('mongodb://localhost:27017/Ecommerce'), AuthModule, AdminModule, ShopModule, PassportModule.register({ defaultStrategy: 'jwt' }), 
   JwtModule.register({
     secret: 'your-secret-key', 
     signOptions: { expiresIn: '1h' }, 

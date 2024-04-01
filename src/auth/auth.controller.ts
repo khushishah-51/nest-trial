@@ -1,6 +1,7 @@
 // auth.controller.ts
 
-import { Controller, Post, Body, Session } from '@nestjs/common';
+import { Controller, Post, Body, Session,  UseGuards  } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UserDTO, LoginDTO, AdminDTO } from './auth.dto';
 
@@ -14,9 +15,9 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() loginDTO: LoginDTO) {
-    console.log('hey')
-    return await this.authService.login(loginDTO);
+  async login(@Body() loginDTO: LoginDTO): Promise<{ access_token: string }>  {
+    const token = await this.authService.login(loginDTO);
+    return { access_token: token };
   }
 
   @Post('admin')
